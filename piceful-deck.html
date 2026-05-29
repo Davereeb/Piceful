@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Piceful — AI Photo Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700;8..60,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<script src="beautiful-html-templates/templates/editorial-forest/deck-stage.js"></script>
+<style>
+  :root {
+    --green: #3D5E3A;
+    --green-deep: #2D4A2C;
+    --green-lite: #4D6E4A;
+    --pink: #E8856A;
+    --pink-deep: #D4705A;
+    --cream: #F0EAE0;
+    --cream-2: #E5DDD0;
+    --ink: #1a1a17;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  html, body { margin: 0; padding: 0; background: #111; }
+  deck-stage { font-family: var(--serif); color: var(--ink); }
+
+  section {
+    box-sizing: border-box;
+    width: 1920px;
+    height: 1080px;
+    padding: 96px 120px;
+    background: var(--cream);
+    color: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ============ 01 — Cover ============ */
+  .cover {
+    background: var(--cream);
+    color: var(--green);
+    padding: 100px 140px;
+  }
+  .cover .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--green);
+  }
+  .cover .topbar .label { color: var(--green); }
+  .cover .mark {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 2px solid var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 28px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 220px;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin: 40px 0 0 0;
+  }
+  .cover .footline {
+    position: absolute;
+    bottom: 80px;
+    left: 140px;
+    right: 140px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 28px;
+    color: var(--green);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ============ 02 — Statement ============ */
+  .statement {
+    background: var(--pink);
+    color: var(--green-deep);
+    padding: 130px 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .statement .label { color: var(--green-deep); }
+  .statement blockquote {
+    margin: 48px 0 0 0;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 128px;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    max-width: 1560px;
+  }
+  .statement .attrib {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 60px;
+    font-family: var(--mono);
+    font-size: 26px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    gap: 60px;
+  }
+  .statement .attrib > div { display: flex; flex-direction: column; gap: 14px; white-space: nowrap; }
+  .statement .attrib .name {
+    font-family: var(--serif);
+    font-size: 44px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* ============ Two-column with image ============ */
+  .two-col {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 880px 1fr;
+    gap: 100px;
+    align-items: stretch;
+    padding: 110px 120px;
+  }
+  .two-col .col-img {
+    background: var(--green);
+    color: var(--pink);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .two-col .col-img .figure {
+    font-family: var(--serif);
+    font-size: 56px;
+    color: var(--pink);
+    font-weight: 500;
+    text-align: center;
+    padding: 0 40px;
+    line-height: 1.05;
+  }
+  .two-col .col-img .caption {
+    position: absolute;
+    bottom: 36px;
+    left: 36px;
+    right: 36px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--pink);
+  }
+  .two-col .col-text { display: flex; flex-direction: column; padding-top: 8px; }
+  .two-col .eyebrow {
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  .two-col h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 96px;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: var(--green);
+    margin: 0 0 40px 0;
+  }
+  .two-col p {
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.38;
+    color: var(--ink);
+    margin: 0 0 24px 0;
+    max-width: 760px;
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+  .two-col .meta {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    border-top: 2px solid var(--green);
+    padding-top: 32px;
+  }
+  .two-col .meta dt {
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .two-col .meta dd {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--ink);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* ============ Agenda (tiles) ============ */
+  .agenda {
+    background: var(--cream);
+    padding: 90px 120px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 36px;
+  }
+  .agenda .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 40px;
+  }
+  .agenda h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 96px;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: var(--green);
+    margin: 0;
+    white-space: nowrap;
+  }
+  .agenda .head .label { color: var(--green); white-space: nowrap; }
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px;
+  }
+  .topic {
+    border-radius: 6px;
+    position: relative;
+    padding: 40px 40px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
+  }
+  .topic.t-green { background: var(--green); color: var(--pink); grid-row: span 2; }
+  .topic.t-pink { background: var(--pink); color: var(--green-deep); }
+  .topic.t-greenLite { background: var(--green-lite); color: var(--pink); }
+  .topic.t-cream { background: var(--cream-2); color: var(--green); border: 2px solid var(--green); }
+  .topic .num {
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+  }
+  .topic h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    margin: 28px 0 0 0;
+  }
+  .topic.t-green h3 { font-size: 84px; }
+  .topic p {
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1.32;
+    margin: 16px 0 0 0;
+    max-width: 100%;
+    font-weight: 400;
+  }
+  .topic .foot {
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 20px;
+  }
+
+  /* ============ Framework / 4 steps ============ */
+  .framework { background: var(--cream); padding: 100px 120px; }
+  .framework .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 40px;
+  }
+  .framework .head .label { color: var(--green); white-space: nowrap; }
+  .framework h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 96px;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: var(--green);
+    margin: 24px 0 0 0;
+    max-width: 1500px;
+  }
+  .flow {
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    align-items: stretch;
+  }
+  .step {
+    border-radius: 8px;
+    padding: 40px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    min-height: 470px;
+    border: 2.5px solid var(--green);
+    background: var(--cream);
+    color: var(--green);
+  }
+  .step.fill { background: var(--green); color: var(--pink); border-color: var(--green); }
+  .step.pinkfill { background: var(--pink); color: var(--green-deep); border-color: var(--pink-deep); }
+  .step .num {
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+  }
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 68px;
+    line-height: 0.96;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    margin: 24px 0 24px 0;
+  }
+  .step p {
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1.34;
+    margin: 0;
+    font-weight: 400;
+  }
+  .step .marker {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 24px;
+    border-top: 2px solid currentColor;
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ============ Big stats / KPI callouts ============ */
+  .stats { background: var(--green); color: var(--cream); padding: 100px 120px; }
+  .stats .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 40px;
+  }
+  .stats .head .label { color: var(--pink); white-space: nowrap; }
+  .stats h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 80px;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin: 18px 0 0 0;
+    max-width: 1400px;
+  }
+  .kpi-row {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    border-top: 2px solid var(--pink);
+    padding-top: 56px;
+  }
+  .kpi { display: flex; flex-direction: column; gap: 16px; }
+  .kpi .tag {
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pink);
+    font-weight: 500;
+  }
+  .kpi .big {
+    font-family: var(--serif);
+    font-size: 220px;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--pink);
+    font-weight: 500;
+  }
+  .kpi .big .unit {
+    font-size: 110px;
+    color: var(--cream);
+    margin-left: 4px;
+  }
+  .kpi .desc {
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.32;
+    color: var(--cream);
+    margin: 8px 0 0 0;
+    font-weight: 400;
+  }
+
+  /* ============ Summary / closing ============ */
+  .summary { background: var(--green); color: var(--cream); padding: 110px 140px; }
+  .summary .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .summary .topbar .label { color: var(--pink); }
+  .summary h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 220px;
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+    color: var(--pink);
+    margin: 50px 0 0 0;
+  }
+  .summary .grid-cols {
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    border-top: 2px solid var(--pink);
+    padding-top: 36px;
+  }
+  .summary .grid-cols h4 {
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin: 0 0 18px 0;
+    font-weight: 500;
+  }
+  .summary .grid-cols p {
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1.32;
+    margin: 0;
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+</style>
+</head>
+<body>
+
+<deck-stage aspect="1920/1080" no-rail>
+
+  <!-- ============ 01 — Cover ============ -->
+  <section class="cover" data-screen-label="01 Cover">
+    <div class="topbar">
+      <span class="label">Gen AI Class &middot; Final Presentation</span>
+      <div class="mark">01</div>
+    </div>
+    <h1>Piceful.</h1>
+    <div class="footline">
+      <span>AI Photography Assistant</span>
+      <span>piceful.vercel.app</span>
+    </div>
+  </section>
+
+  <!-- ============ 02 — Hero Image ============ -->
+  <section style="background:#111; padding:0; display:flex; align-items:center; justify-content:center;" data-screen-label="02 Hero Image">
+    <img src="Couple.png" alt="You got the perfect shot for him. But somehow, he couldn't do the same for you." style="width:100%; height:100%; object-fit:cover;" />
+  </section>
+
+  <!-- ============ 03 — Statement ============ -->
+  <section class="statement" data-screen-label="02 The Problem">
+    <div>
+      <span class="label">The Problem</span>
+      <blockquote>Stop wasting time retaking photos &mdash; get the shot right the first time.</blockquote>
+    </div>
+    <div class="attrib">
+      <div>
+        <div class="name">Piceful</div>
+        <div style="margin-top: 8px;">AI Photography Assistant</div>
+      </div>
+      <div>piceful.vercel.app</div>
+    </div>
+  </section>
+
+  <!-- ============ 03 — What is Piceful ============ -->
+  <section class="two-col" data-screen-label="03 What is Piceful">
+    <div class="col-img" style="flex-direction:column; justify-content:center; gap:12px;">
+      <img src="piceful-camera.png" alt="Piceful logo" style="width:500px; height:auto; object-fit:contain; align-self:center; margin-left:1em;" />
+      <div class="figure" style="font-size:34px; padding:0 48px; line-height:1.2;">Upload a reference photo. AI guides you into the perfect frame in real time.</div>
+      <div class="caption">
+        <span>How It Works</span>
+        <span>Browser-based</span>
+      </div>
+    </div>
+    <div class="col-text">
+      <div class="eyebrow">Meet Piceful</div>
+      <h2>Your AI photo guide.</h2>
+      <p>Piceful is a browser-based AI photography assistant that helps anyone recreate a reference photo in real time. <span style="color: var(--green); font-weight: 500;">Upload a target image, and on-device AI detects your body position through the camera, compares it to the reference, and gives you live guidance until you match the framing.</span></p>
+      <p>No app install. Works on any smartphone. Combines on-device pose detection with a cloud vision model for natural-language coaching.</p>
+      <dl class="meta">
+        <div><dt>Platform</dt><dd>Any browser</dd></div>
+        <div><dt>AI</dt><dd>On-device + Cloud</dd></div>
+        <div><dt>Status</dt><dd>MVP Live</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ 04 — Target Users ============ -->
+  <section class="agenda" data-screen-label="04 Target Users">
+    <div class="head">
+      <h2>Who is it for.</h2>
+      <span class="label">Target Users</span>
+    </div>
+    <div class="agenda-grid">
+      <div class="topic t-green">
+        <div>
+          <h3>Zero competitors.</h3>
+          <p>No major app provides real-time guidance during capture. The entire market focuses on post-capture editing.</p>
+        </div>
+        <div class="foot">Gap</div>
+      </div>
+      <div class="topic t-pink">
+        <div>
+          <div class="num">01</div>
+          <h3>Tourists &amp; travelers.</h3>
+          <p>Recreating iconic shots at landmarks and destinations without the guesswork.</p>
+        </div>
+        <div class="foot">Primary</div>
+      </div>
+      <div class="topic t-cream">
+        <div>
+          <div class="num">02</div>
+          <h3>Couples &amp; families.</h3>
+          <p>Memorial photos and group compositions done right the first time.</p>
+        </div>
+        <div class="foot">Primary</div>
+      </div>
+      <div class="topic t-greenLite">
+        <div>
+          <div class="num">03</div>
+          <h3>Social media creators.</h3>
+          <p>Reproducing trending poses and content styles with precision.</p>
+        </div>
+        <div class="foot">Primary</div>
+      </div>
+      <div class="topic t-pink">
+        <div>
+          <div class="num">04</div>
+          <h3>Everyday photographers.</h3>
+          <p>1.4 trillion photos taken annually, 85% on smartphones.</p>
+        </div>
+        <div class="foot">Market</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 — The 4 Problems ============ -->
+  <section class="framework" data-screen-label="05 Problems">
+    <div class="head">
+      <span class="label">Pain Points</span>
+      <span class="label">Four problems, one solution</span>
+    </div>
+    <h2>What Piceful solves.</h2>
+
+    <div class="flow">
+      <div class="step">
+        <div class="num">Problem 01</div>
+        <h3>Trial &amp; error.</h3>
+        <p>The average person takes 5&ndash;10 attempts per posed photo. Piceful gets the shot in 1&ndash;2 tries with real-time position matching.</p>
+        <div class="marker"><span>5&ndash;10 &rarr; 1&ndash;2</span><span>Attempts</span></div>
+      </div>
+      <div class="step pinkfill">
+        <div class="num">Problem 02</div>
+        <h3>No way to copy.</h3>
+        <p>You see a great photo but have no tool to guide you into the same framing. Piceful overlays the reference as a ghost image and shows exactly how to match it.</p>
+        <div class="marker"><span>Ghost overlay</span><span>AI crop</span></div>
+      </div>
+      <div class="step fill">
+        <div class="num">Problem 03</div>
+        <h3>Lost in translation.</h3>
+        <p>&ldquo;Move left &mdash; no, the other left.&rdquo; Piceful gives precise, simultaneous instructions to both the photographer and the subject.</p>
+        <div class="marker"><span>Dual guidance</span><span>Real-time</span></div>
+      </div>
+      <div class="step">
+        <div class="num">Problem 04</div>
+        <h3>Expertise required.</h3>
+        <p>Composition rules like rule of thirds are hard to apply in practice. Piceful applies them automatically through grid overlays and AI framing analysis.</p>
+        <div class="marker"><span>Auto compose</span><span>AI-powered</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 — Market Opportunity ============ -->
+  <section class="stats" data-screen-label="06 Market">
+    <div class="head">
+      <span class="label">Market Opportunity</span>
+      <span class="label">Global photo market</span>
+    </div>
+    <h2>A massive market with<br/>zero real-time guidance.</h2>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <span class="tag">Market Size</span>
+        <span class="big">$3<span class="unit">B+</span></span>
+        <p class="desc">Global photo app market value. Growing with smartphone camera improvements and social media demand.</p>
+      </div>
+      <div class="kpi">
+        <span class="tag">Photos / Year</span>
+        <span class="big">1.4<span class="unit">T</span></span>
+        <p class="desc">Photos taken annually worldwide. The volume keeps growing, but the capture experience hasn&rsquo;t changed.</p>
+      </div>
+      <div class="kpi">
+        <span class="tag">On Smartphones</span>
+        <span class="big">85<span class="unit">%</span></span>
+        <p class="desc">Of all photos are taken on smartphones. No major app offers real-time guidance during capture.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 — Tech Stack ============ -->
+  <section class="framework" data-screen-label="07 Tech Stack">
+    <div class="head">
+      <span class="label">How It Works</span>
+      <span class="label">Tech Stack</span>
+    </div>
+    <h2>On-device AI meets<br/>cloud vision.</h2>
+
+    <div class="flow">
+      <div class="step">
+        <div class="num">Layer 01</div>
+        <h3>TensorFlow.js</h3>
+        <p>BlazeFace for face detection and MoveNet for 17-keypoint body pose estimation. Runs on-device at ~10fps with zero server cost. Also powers our Premium skeleton overlay &mdash; color-coded dots on the reference image turn green as you match the pose.</p>
+        <div class="marker"><span>On-device</span><span>~10fps</span></div>
+      </div>
+      <div class="step pinkfill">
+        <div class="num">Layer 02</div>
+        <h3>Qwen-VL-Max</h3>
+        <p>Alibaba&rsquo;s vision-language model via DashScope API. Analyzes reference + live frame pairs and generates natural-language coaching instructions.</p>
+        <div class="marker"><span>Cloud AI</span><span>Multimodal</span></div>
+      </div>
+      <div class="step fill">
+        <div class="num">Layer 03</div>
+        <h3>WebRTC</h3>
+        <p>getUserMedia for direct camera access in the browser. Supports front and back camera switching with no native app required.</p>
+        <div class="marker"><span>Browser API</span><span>No install</span></div>
+      </div>
+      <div class="step">
+        <div class="num">Layer 04</div>
+        <h3>Supabase</h3>
+        <p>PostgreSQL database with Row Level Security for user auth, cloud collections storage, and image hosting.</p>
+        <div class="marker"><span>Backend</span><span>Auth + Storage</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 — Business Model ============ -->
+  <section class="framework" data-screen-label="08 Business Model">
+    <div class="head">
+      <span class="label">Revenue</span>
+      <span class="label">Freemium SaaS</span>
+    </div>
+    <h2>Monetize at the<br/>moment of need.</h2>
+
+    <div class="flow">
+      <div class="step" style="background: var(--cream); border-color: var(--green); color: var(--green);">
+        <div class="num">Tier 01</div>
+        <h3>Free</h3>
+        <p style="color: var(--green);">3 sessions with no account required. Let users experience the product before asking for anything.</p>
+        <div class="marker"><span>No sign-up</span><span>3 sessions</span></div>
+      </div>
+      <div class="step" style="background: var(--cream); border-color: var(--green); color: var(--green);">
+        <div class="num">Tier 02</div>
+        <h3>Free Account</h3>
+        <p style="color: var(--green);">5 sessions per month, resets monthly. Unlocks cloud collections for organizing reference photos with keyword search.</p>
+        <div class="marker"><span>Monthly reset</span><span>5 sessions</span></div>
+      </div>
+      <div class="step" style="background: var(--cream); border-color: var(--pink); color: var(--pink);">
+        <div class="num">Tier 03</div>
+        <h3>7-Day Pass</h3>
+        <p style="color: var(--pink);">$2.99 for unlimited sessions. Perfect for trips, events, and content creation sprints. Time-based pricing converts at the point of need.</p>
+        <div class="marker"><span>$2.99</span><span>Unlimited</span></div>
+      </div>
+      <div class="step" style="background: var(--cream); border-color: var(--pink); color: var(--pink);">
+        <div class="num">Tier 04</div>
+        <h3>Annual Pro</h3>
+        <p style="color: var(--pink);">$19.99 per year for unlimited sessions year-round. Near-zero marginal cost per user: on-device AI handles detection, cloud API costs ~$0.003 per call.</p>
+        <div class="marker"><span>$19.99/yr</span><span>Unlimited</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 — Traction ============ -->
+  <section class="two-col" data-screen-label="09 Current Status">
+    <div class="col-img">
+      <div class="figure">MVP live at <span style="color: var(--cream);">piceful.vercel.app</span> &mdash; try it on any smartphone right now.</div>
+      <div class="caption">
+        <span>Status</span>
+        <span>Early stage</span>
+      </div>
+    </div>
+    <div class="col-text">
+      <div class="eyebrow">Current Status</div>
+      <h2>Solo project, live product.</h2>
+      <p>Early-stage solo project currently in MVP phase with a working product live and testable. Functional authentication, cloud collections, and the full AI-guided capture flow are complete.</p>
+      <p>Future revenue streams include branded frame partnerships with tourist attractions, museums, and landmarks offering official reference packs, plus premium AI features like advanced coaching, style transfer, and multi-person coordination.</p>
+      <dl class="meta">
+        <div><dt>Stage</dt><dd>MVP</dd></div>
+        <div><dt>Platform</dt><dd>Browser</dd></div>
+        <div><dt>Looking for</dt><dd>Early adopters</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ 10 — Feature Overview ============ -->
+  <section class="agenda" data-screen-label="10 Features">
+    <div class="head">
+      <h2>Feature set.</h2>
+      <span class="label">Complete Inventory</span>
+    </div>
+    <div class="agenda-grid">
+      <div class="topic t-green">
+        <div>
+          <h3>Live AI-Guided Session</h3>
+          <p>Ghost overlay, real-time pose matching, direction hints, and composition grid &mdash; the core capture experience running entirely in the browser.</p>
+        </div>
+        <div class="foot">Core Feature</div>
+      </div>
+      <div class="topic t-pink">
+        <div>
+          <div class="num">01</div>
+          <h3>Smart Upload</h3>
+          <p>File picker, URL paste, or pick from saved cloud collections. Auto-detects pose keypoints on upload.</p>
+        </div>
+        <div class="foot">Entry Point</div>
+      </div>
+      <div class="topic t-cream">
+        <div>
+          <div class="num">02</div>
+          <h3>Skeleton Overlay</h3>
+          <p>Premium color-coded body dots drawn on the reference image turn green as you match the pose.</p>
+        </div>
+        <div class="foot">Premium</div>
+      </div>
+      <div class="topic t-greenLite">
+        <div>
+          <div class="num">03</div>
+          <h3>Capture &amp; Compare</h3>
+          <p>Side-by-side comparison, gallery with lightbox viewer, and sharing via Web Share API.</p>
+        </div>
+        <div class="foot">Post-Capture</div>
+      </div>
+      <div class="topic t-pink">
+        <div>
+          <div class="num">04</div>
+          <h3>Auth &amp; Collections</h3>
+          <p>Supabase-powered login, cloud photo collections, and freemium subscription tiers.</p>
+        </div>
+        <div class="foot">Platform</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 11 — Core Capture Detail ============ -->
+  <section class="framework" data-screen-label="11 Capture Detail">
+    <div class="head">
+      <span class="label">Core Feature</span>
+      <span class="label">Live Session Detail</span>
+    </div>
+    <h2>Inside the capture<br/>session.</h2>
+
+    <div class="flow">
+      <div class="step">
+        <div class="num">Feature 01</div>
+        <h3>Ghost Overlay</h3>
+        <p>Semi-transparent reference image over the live camera feed. Adjustable opacity slider (0&ndash;100%) with proper aspect-ratio scaling and letterboxing.</p>
+        <div class="marker"><span>Adjustable</span><span>Real-time</span></div>
+      </div>
+      <div class="step pinkfill">
+        <div class="num">Feature 02</div>
+        <h3>Pose Match</h3>
+        <p>IoU bounding-box comparison with a boosted &radic; curve for the display score. Three zones: match (&ge;65%), close (30&ndash;65%), off (&lt;30%). Phone vibrates on match.</p>
+        <div class="marker"><span>xx% Match</span><span>IoU</span></div>
+      </div>
+      <div class="step fill">
+        <div class="num">Feature 03</div>
+        <h3>Direction Hints</h3>
+        <p>&ldquo;Move left,&rdquo; &ldquo;Step back,&rdquo; &ldquo;Step closer&rdquo; &mdash; precise guidance computed from bounding-box offset comparison between reference and live frames.</p>
+        <div class="marker"><span>Dual guidance</span><span>Contextual</span></div>
+      </div>
+      <div class="step">
+        <div class="num">Feature 04</div>
+        <h3>Grid Overlay</h3>
+        <p>Toggle-able rule-of-thirds composition grid overlaid on the camera feed. Applies professional framing rules automatically, no expertise needed.</p>
+        <div class="marker"><span>Composition</span><span>Toggle</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 12 — Premium & Platform ============ -->
+  <section class="two-col" data-screen-label="12 Premium &amp; Platform">
+    <div class="col-img" style="flex-direction:column; justify-content:center; gap:24px;">
+      <div class="figure" style="font-size:72px; line-height:0.96; letter-spacing:-0.01em;">Premium &amp; Platform</div>
+      <div class="figure" style="font-size:30px; padding:0 48px; line-height:1.25;">Beyond the core capture &mdash; authentication, cloud storage, gallery, and monetization.</div>
+      <div class="caption">
+        <span>Features</span>
+        <span>8 Total</span>
+      </div>
+    </div>
+    <div class="col-text">
+      <div class="eyebrow">Beyond Capture</div>
+      <h2>The full platform.</h2>
+      <p><span style="color:var(--green); font-weight:500;">Skeleton Overlay</span> &mdash; 17 MoveNet keypoints drawn on the reference image with color-coded distance matching: green (&lt;5%), orange (&lt;12%), red, or gray if undetected.</p>
+      <p><span style="color:var(--green); font-weight:500;">Gallery &amp; Comparison</span> &mdash; Side-by-side view after capture, full gallery with lightbox, pinch-to-zoom, and native sharing.</p>
+      <p><span style="color:var(--green); font-weight:500;">Auth &amp; Collections</span> &mdash; Supabase login, cloud-synced photo collections with tags, and session persistence across devices.</p>
+      <p><span style="color:var(--green); font-weight:500;">Freemium Tiers</span> &mdash; 3 free sessions, 5/month with account, $2.99 weekly pass, or $19.99/year unlimited.</p>
+      <dl class="meta">
+        <div><dt>Premium</dt><dd>Skeleton overlay</dd></div>
+        <div><dt>Storage</dt><dd>Supabase Cloud</dd></div>
+        <div><dt>Auth</dt><dd>JWT + RLS</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ 13 — Closing / CTA ============ -->
+  <section class="summary" data-screen-label="10 Try It" style="display:grid; grid-template-columns:1fr auto; grid-template-rows:auto auto 1fr; gap:0 80px;">
+    <div class="topbar" style="grid-column:1/-1;">
+      <span class="label">Try it yourself</span>
+      <span class="label">Thank you</span>
+    </div>
+    <h2 style="grid-column:1; align-self:start;">Try it<br/>right now.</h2>
+    <!-- QR Code -->
+    <div style="grid-column:2; grid-row:2/4; display:flex; align-items:center; justify-content:center;">
+      <div style="background:var(--green); border-radius:20px; padding:24px; display:flex; align-items:center; justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" shape-rendering="crispEdges" style="width:260px; height:260px;"><rect x="0" y="0" width="7" height="1" fill="#E8856A"/><rect x="9" y="0" width="2" height="1" fill="#E8856A"/><rect x="12" y="0" width="1" height="1" fill="#E8856A"/><rect x="14" y="0" width="2" height="1" fill="#E8856A"/><rect x="18" y="0" width="7" height="1" fill="#E8856A"/><rect x="0" y="1" width="1" height="1" fill="#E8856A"/><rect x="6" y="1" width="1" height="1" fill="#E8856A"/><rect x="8" y="1" width="1" height="1" fill="#E8856A"/><rect x="11" y="1" width="5" height="1" fill="#E8856A"/><rect x="18" y="1" width="1" height="1" fill="#E8856A"/><rect x="24" y="1" width="1" height="1" fill="#E8856A"/><rect x="0" y="2" width="1" height="1" fill="#E8856A"/><rect x="2" y="2" width="3" height="1" fill="#E8856A"/><rect x="6" y="2" width="1" height="1" fill="#E8856A"/><rect x="9" y="2" width="1" height="1" fill="#E8856A"/><rect x="11" y="2" width="1" height="1" fill="#E8856A"/><rect x="15" y="2" width="1" height="1" fill="#E8856A"/><rect x="18" y="2" width="1" height="1" fill="#E8856A"/><rect x="20" y="2" width="3" height="1" fill="#E8856A"/><rect x="24" y="2" width="1" height="1" fill="#E8856A"/><rect x="0" y="3" width="1" height="1" fill="#E8856A"/><rect x="2" y="3" width="3" height="1" fill="#E8856A"/><rect x="6" y="3" width="1" height="1" fill="#E8856A"/><rect x="9" y="3" width="4" height="1" fill="#E8856A"/><rect x="14" y="3" width="3" height="1" fill="#E8856A"/><rect x="18" y="3" width="1" height="1" fill="#E8856A"/><rect x="20" y="3" width="3" height="1" fill="#E8856A"/><rect x="24" y="3" width="1" height="1" fill="#E8856A"/><rect x="0" y="4" width="1" height="1" fill="#E8856A"/><rect x="2" y="4" width="3" height="1" fill="#E8856A"/><rect x="6" y="4" width="1" height="1" fill="#E8856A"/><rect x="8" y="4" width="2" height="1" fill="#E8856A"/><rect x="11" y="4" width="1" height="1" fill="#E8856A"/><rect x="15" y="4" width="1" height="1" fill="#E8856A"/><rect x="18" y="4" width="1" height="1" fill="#E8856A"/><rect x="20" y="4" width="3" height="1" fill="#E8856A"/><rect x="24" y="4" width="1" height="1" fill="#E8856A"/><rect x="0" y="5" width="1" height="1" fill="#E8856A"/><rect x="6" y="5" width="1" height="1" fill="#E8856A"/><rect x="10" y="5" width="2" height="1" fill="#E8856A"/><rect x="15" y="5" width="1" height="1" fill="#E8856A"/><rect x="18" y="5" width="1" height="1" fill="#E8856A"/><rect x="24" y="5" width="1" height="1" fill="#E8856A"/><rect x="0" y="6" width="7" height="1" fill="#E8856A"/><rect x="8" y="6" width="1" height="1" fill="#E8856A"/><rect x="10" y="6" width="1" height="1" fill="#E8856A"/><rect x="12" y="6" width="1" height="1" fill="#E8856A"/><rect x="14" y="6" width="1" height="1" fill="#E8856A"/><rect x="16" y="6" width="1" height="1" fill="#E8856A"/><rect x="18" y="6" width="7" height="1" fill="#E8856A"/><rect x="10" y="7" width="2" height="1" fill="#E8856A"/><rect x="13" y="7" width="1" height="1" fill="#E8856A"/><rect x="16" y="7" width="1" height="1" fill="#E8856A"/><rect x="0" y="8" width="1" height="1" fill="#E8856A"/><rect x="2" y="8" width="1" height="1" fill="#E8856A"/><rect x="4" y="8" width="1" height="1" fill="#E8856A"/><rect x="6" y="8" width="1" height="1" fill="#E8856A"/><rect x="10" y="8" width="1" height="1" fill="#E8856A"/><rect x="12" y="8" width="2" height="1" fill="#E8856A"/><rect x="15" y="8" width="2" height="1" fill="#E8856A"/><rect x="20" y="8" width="1" height="1" fill="#E8856A"/><rect x="23" y="8" width="1" height="1" fill="#E8856A"/><rect x="0" y="9" width="3" height="1" fill="#E8856A"/><rect x="5" y="9" width="1" height="1" fill="#E8856A"/><rect x="9" y="9" width="5" height="1" fill="#E8856A"/><rect x="17" y="9" width="2" height="1" fill="#E8856A"/><rect x="24" y="9" width="1" height="1" fill="#E8856A"/><rect x="0" y="10" width="1" height="1" fill="#E8856A"/><rect x="2" y="10" width="3" height="1" fill="#E8856A"/><rect x="6" y="10" width="2" height="1" fill="#E8856A"/><rect x="9" y="10" width="6" height="1" fill="#E8856A"/><rect x="16" y="10" width="1" height="1" fill="#E8856A"/><rect x="20" y="10" width="1" height="1" fill="#E8856A"/><rect x="22" y="10" width="3" height="1" fill="#E8856A"/><rect x="0" y="11" width="1" height="1" fill="#E8856A"/><rect x="5" y="11" width="1" height="1" fill="#E8856A"/><rect x="7" y="11" width="2" height="1" fill="#E8856A"/><rect x="11" y="11" width="1" height="1" fill="#E8856A"/><rect x="13" y="11" width="4" height="1" fill="#E8856A"/><rect x="19" y="11" width="1" height="1" fill="#E8856A"/><rect x="23" y="11" width="1" height="1" fill="#E8856A"/><rect x="1" y="12" width="2" height="1" fill="#E8856A"/><rect x="4" y="12" width="1" height="1" fill="#E8856A"/><rect x="6" y="12" width="8" height="1" fill="#E8856A"/><rect x="15" y="12" width="5" height="1" fill="#E8856A"/><rect x="21" y="12" width="1" height="1" fill="#E8856A"/><rect x="23" y="12" width="2" height="1" fill="#E8856A"/><rect x="2" y="13" width="3" height="1" fill="#E8856A"/><rect x="7" y="13" width="3" height="1" fill="#E8856A"/><rect x="11" y="13" width="1" height="1" fill="#E8856A"/><rect x="13" y="13" width="1" height="1" fill="#E8856A"/><rect x="16" y="13" width="3" height="1" fill="#E8856A"/><rect x="21" y="13" width="1" height="1" fill="#E8856A"/><rect x="24" y="13" width="1" height="1" fill="#E8856A"/><rect x="0" y="14" width="1" height="1" fill="#E8856A"/><rect x="2" y="14" width="1" height="1" fill="#E8856A"/><rect x="4" y="14" width="1" height="1" fill="#E8856A"/><rect x="6" y="14" width="3" height="1" fill="#E8856A"/><rect x="10" y="14" width="1" height="1" fill="#E8856A"/><rect x="12" y="14" width="1" height="1" fill="#E8856A"/><rect x="18" y="14" width="2" height="1" fill="#E8856A"/><rect x="22" y="14" width="3" height="1" fill="#E8856A"/><rect x="1" y="15" width="2" height="1" fill="#E8856A"/><rect x="4" y="15" width="2" height="1" fill="#E8856A"/><rect x="9" y="15" width="3" height="1" fill="#E8856A"/><rect x="13" y="15" width="4" height="1" fill="#E8856A"/><rect x="18" y="15" width="1" height="1" fill="#E8856A"/><rect x="20" y="15" width="1" height="1" fill="#E8856A"/><rect x="23" y="15" width="1" height="1" fill="#E8856A"/><rect x="0" y="16" width="1" height="1" fill="#E8856A"/><rect x="2" y="16" width="2" height="1" fill="#E8856A"/><rect x="5" y="16" width="5" height="1" fill="#E8856A"/><rect x="13" y="16" width="1" height="1" fill="#E8856A"/><rect x="16" y="16" width="6" height="1" fill="#E8856A"/><rect x="8" y="17" width="2" height="1" fill="#E8856A"/><rect x="12" y="17" width="1" height="1" fill="#E8856A"/><rect x="16" y="17" width="1" height="1" fill="#E8856A"/><rect x="20" y="17" width="2" height="1" fill="#E8856A"/><rect x="23" y="17" width="2" height="1" fill="#E8856A"/><rect x="0" y="18" width="7" height="1" fill="#E8856A"/><rect x="9" y="18" width="1" height="1" fill="#E8856A"/><rect x="12" y="18" width="1" height="1" fill="#E8856A"/><rect x="15" y="18" width="2" height="1" fill="#E8856A"/><rect x="18" y="18" width="1" height="1" fill="#E8856A"/><rect x="20" y="18" width="2" height="1" fill="#E8856A"/><rect x="23" y="18" width="2" height="1" fill="#E8856A"/><rect x="0" y="19" width="1" height="1" fill="#E8856A"/><rect x="6" y="19" width="1" height="1" fill="#E8856A"/><rect x="11" y="19" width="1" height="1" fill="#E8856A"/><rect x="13" y="19" width="1" height="1" fill="#E8856A"/><rect x="16" y="19" width="1" height="1" fill="#E8856A"/><rect x="20" y="19" width="2" height="1" fill="#E8856A"/><rect x="23" y="19" width="2" height="1" fill="#E8856A"/><rect x="0" y="20" width="1" height="1" fill="#E8856A"/><rect x="2" y="20" width="3" height="1" fill="#E8856A"/><rect x="6" y="20" width="1" height="1" fill="#E8856A"/><rect x="8" y="20" width="3" height="1" fill="#E8856A"/><rect x="13" y="20" width="2" height="1" fill="#E8856A"/><rect x="16" y="20" width="6" height="1" fill="#E8856A"/><rect x="0" y="21" width="1" height="1" fill="#E8856A"/><rect x="2" y="21" width="3" height="1" fill="#E8856A"/><rect x="6" y="21" width="1" height="1" fill="#E8856A"/><rect x="12" y="21" width="1" height="1" fill="#E8856A"/><rect x="15" y="21" width="2" height="1" fill="#E8856A"/><rect x="19" y="21" width="4" height="1" fill="#E8856A"/><rect x="0" y="22" width="1" height="1" fill="#E8856A"/><rect x="2" y="22" width="3" height="1" fill="#E8856A"/><rect x="6" y="22" width="1" height="1" fill="#E8856A"/><rect x="8" y="22" width="2" height="1" fill="#E8856A"/><rect x="13" y="22" width="1" height="1" fill="#E8856A"/><rect x="15" y="22" width="2" height="1" fill="#E8856A"/><rect x="20" y="22" width="1" height="1" fill="#E8856A"/><rect x="24" y="22" width="1" height="1" fill="#E8856A"/><rect x="0" y="23" width="1" height="1" fill="#E8856A"/><rect x="6" y="23" width="1" height="1" fill="#E8856A"/><rect x="11" y="23" width="1" height="1" fill="#E8856A"/><rect x="13" y="23" width="1" height="1" fill="#E8856A"/><rect x="15" y="23" width="2" height="1" fill="#E8856A"/><rect x="20" y="23" width="2" height="1" fill="#E8856A"/><rect x="23" y="23" width="1" height="1" fill="#E8856A"/><rect x="0" y="24" width="7" height="1" fill="#E8856A"/><rect x="8" y="24" width="2" height="1" fill="#E8856A"/><rect x="12" y="24" width="2" height="1" fill="#E8856A"/><rect x="15" y="24" width="5" height="1" fill="#E8856A"/><rect x="23" y="24" width="2" height="1" fill="#E8856A"/></svg>
+      </div>
+    </div>
+    <div class="grid-cols" style="grid-column:1; grid-template-columns:1fr 1fr; align-self:end;">
+      <div>
+        <h4>On your phone</h4>
+        <p>Open piceful.vercel.app on your phone right now. Upload any reference photo and watch the AI guide you into the perfect frame.</p>
+      </div>
+      <div>
+        <h4>Get involved</h4>
+        <p>Looking for early adopters to test and provide feedback, and collaborators with experience in mobile photography or computer vision.</p>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Camera body -->
+  <rect x="30" y="65" width="140" height="115" rx="8" fill="#E8856A"/>
+  <!-- Flash/viewfinder bump -->
+  <rect x="80" y="40" width="40" height="30" rx="4" fill="#E8856A"/>
+  <!-- Small top bumps -->
+  <rect x="72" y="50" width="12" height="20" rx="3" fill="#E8856A"/>
+  <rect x="116" y="50" width="12" height="20" rx="3" fill="#E8856A"/>
+  <!-- Lens outer ring -->
+  <circle cx="100" cy="128" r="38" fill="#C96A4E"/>
+  <!-- Lens middle ring -->
+  <circle cx="100" cy="128" r="30" fill="#D4785A"/>
+  <!-- Lens inner dark -->
+  <circle cx="100" cy="128" r="18" fill="#3D1F14"/>
+  <!-- Lens highlight -->
+  <circle cx="92" cy="120" r="5" fill="#5A3528" opacity="0.6"/>
+  <!-- Piceful label -->
+  <rect x="78" y="72" width="44" height="16" rx="3" fill="#8B4332"/>
+  <text x="100" y="84" text-anchor="middle" font-family="serif" font-size="11" font-style="italic" fill="#F0EAE0">Piceful</text>
+  <!-- Shutter button -->
+  <circle cx="140" y="78" r="5" fill="#8B4332"/>
+</svg>
